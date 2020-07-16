@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Getter;
@@ -27,6 +28,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Table(name = "pauta")
 public class Pauta {
 	
 	private static final long TEMPO_DEFAULT = 1;
