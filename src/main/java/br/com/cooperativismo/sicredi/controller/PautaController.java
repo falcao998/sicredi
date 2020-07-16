@@ -56,5 +56,9 @@ public class PautaController {
 	public ResponseEntity<Object> abriSessaoPauta(@PathVariable Long id, @RequestParam Optional<Long> minutos) {
 		return service.abrirSessao(id, minutos);
 	}
-
+	
+	@PutMapping("/votacao/{id}")
+	public ResponseEntity<Object> votacaoPauta(@PathVariable Long id, @RequestParam int userId, @RequestParam String voto) {
+		return service.votacao(id, userId, voto);
+	}
 }

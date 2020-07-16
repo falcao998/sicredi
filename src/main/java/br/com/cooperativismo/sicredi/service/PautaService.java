@@ -65,8 +65,25 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 	public ResponseEntity<Object> abrirSessao(Long id, Optional<Long> minutos) {
 		Pauta pauta = repository.findById(id).orElse(null);
 		if(pauta != null) {
-			pauta.iniciarSessao(minutos);
-			return ResponseEntity.ok(repository.save(pauta));
+			if(pauta.getInicioSessao() == null) {
+				pauta.iniciarSessao(minutos);
+				return ResponseEntity.ok(repository.save(pauta));
+			} else {
+				return ResponseEntity.badRequest().body("Sessão da pauta já iniciada.");
+			}
+		} else
+			return NOT_FOUND;
+	}
+
+	public ResponseEntity<Object> votacao(Long id, int userId, String voto) {
+		Pauta pauta = repository.findById(id).orElse(null);
+		if(pauta != null) {
+			if(pauta.getInicioSessao() != null) {
+				pauta.getVotos().put(userId, voto);
+				return ResponseEntity.ok(repository.save(pauta));
+			} else {
+				return ResponseEntity.badRequest().body("Sessão da pauta já iniciada.");
+			}
 		} else
 			return NOT_FOUND;
 	}
