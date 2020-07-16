@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 
 	@Autowired
 	private PautaRepository repository;
+	
+	private static final ResponseEntity<Object> NOT_FOUND = new ResponseEntity<Object>("Pauta não encontrada.", HttpStatus.NOT_FOUND);
 
 	@Override
 	public ResponseEntity<List<Pauta>> findAll() {
@@ -27,7 +30,7 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 		if(pauta.isPresent())
 			return ResponseEntity.ok(pauta.get());
 		else
-			return ResponseEntity.notFound().build();
+			return NOT_FOUND;
 	}
 
 	@Override
@@ -46,16 +49,25 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 			repository.deleteById(id);
 			return ResponseEntity.noContent().build();
 		} else
-			return ResponseEntity.notFound().build();
+			return NOT_FOUND;
 	}
 
 	@Override
-	public ResponseEntity<Pauta> update(Long id, Pauta pauta) {
+	public ResponseEntity<Object> update(Long id, Pauta pauta) {
 		Optional<Pauta> optional = repository.findById(id);
 		if(optional.isPresent()) {
 			pauta.setId(id);
 			return ResponseEntity.ok(repository.save(pauta));
 		} else
-			return ResponseEntity.notFound().build();
+			return NOT_FOUND;
+	}
+
+	public ResponseEntity<Object> abrirSessao(Long id, Optional<Long> minutos) {
+		Pauta pauta = repository.findById(id).orElse(null);
+		if(pauta != null) {
+			pauta.iniciarSessao(minutos);
+			return ResponseEntity.ok(repository.save(pauta));
+		} else
+			return NOT_FOUND;
 	}
 }

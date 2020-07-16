@@ -1,6 +1,7 @@
 package br.com.cooperativismo.sicredi.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cooperativismo.sicredi.domain.model.Pauta;
@@ -46,8 +48,13 @@ public class PautaController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Pauta> deletePauta(@PathVariable Long id, @Valid @RequestBody Pauta pauta) {
+	public ResponseEntity<Object> updatePauta(@PathVariable Long id, @Valid @RequestBody Pauta pauta) {
 		return service.update(id, pauta);
+	}
+	
+	@PutMapping("/abrisessao/{id}")
+	public ResponseEntity<Object> abriSessaoPauta(@PathVariable Long id, @RequestParam Optional<Long> minutos) {
+		return service.abrirSessao(id, minutos);
 	}
 
 }

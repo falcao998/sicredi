@@ -14,5 +14,5 @@ public interface ServicePattern<T, ID> {
 	
 	ResponseEntity<Object> delete(ID id);
 	
-	ResponseEntity<T> update(ID id, T t);
+	ResponseEntity<Object> update(ID id, T t);
 }

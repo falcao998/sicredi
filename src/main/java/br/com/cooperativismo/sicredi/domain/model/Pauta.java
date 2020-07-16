@@ -1,7 +1,9 @@
 package br.com.cooperativismo.sicredi.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,5 +38,13 @@ public class Pauta {
 	
 	private LocalDateTime fimSessao;
 	
-	private Map<Long, String> votos;
+	private Map<Long, String> votos = new HashMap<Long, String>();
+	
+	public void iniciarSessao(Optional<Long> minutos) {
+		this.inicioSessao = LocalDateTime.now();
+		if(minutos.isPresent())
+			this.fimSessao = this.inicioSessao.plusMinutes(minutos.get());
+		else
+			this.fimSessao = this.inicioSessao.plusMinutes(TEMPO_DEFAULT);
+	}
 }
