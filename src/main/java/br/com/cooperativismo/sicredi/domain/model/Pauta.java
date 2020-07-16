@@ -1,5 +1,8 @@
 package br.com.cooperativismo.sicredi.domain.model;
 
+import java.time.LocalDateTime;
+import java.util.Map;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +21,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Pauta {
+	
+	private static final long TEMPO_DEFAULT = 1;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +31,10 @@ public class Pauta {
 	@NotBlank
 	@NonNull
 	private String nome;
+	
+	private LocalDateTime inicioSessao;
+	
+	private LocalDateTime fimSessao;
+	
+	private Map<Long, String> votos;
 }
