@@ -5,10 +5,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import br.com.cooperativismo.sicredi.domain.model.Pauta;
 import br.com.cooperativismo.sicredi.domain.reository.PautaRepository;
 
+@Service
 public class PautaService implements ServicePattern<Pauta, Long> {
 
 	@Autowired
