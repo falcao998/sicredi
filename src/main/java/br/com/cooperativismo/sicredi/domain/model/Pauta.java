@@ -5,10 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.JoinColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MapKeyColumn;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Getter;
@@ -38,7 +43,12 @@ public class Pauta {
 	
 	private LocalDateTime fimSessao;
 	
-	private Map<Long, String> votos = new HashMap<Long, String>();
+	@ElementCollection
+	@CollectionTable(name = "pauta_voto_mapping", 
+		      joinColumns = {@JoinColumn(name = "pauta_id", referencedColumnName = "id")})
+	@MapKeyColumn(name = "user_id")
+	@Column(name = "voto")
+	private Map<Integer, String> votos = new HashMap<Integer, String>();
 	
 	public void iniciarSessao(Optional<Long> minutos) {
 		this.inicioSessao = LocalDateTime.now();
