@@ -1,5 +1,6 @@
 package br.com.cooperativismo.sicredi.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,11 +79,18 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 	public ResponseEntity<Object> votacao(Long id, int userId, String voto) {
 		Pauta pauta = repository.findById(id).orElse(null);
 		if(pauta != null) {
-			if(pauta.getInicioSessao() != null) {
-				pauta.getVotos().put(userId, voto);
-				return ResponseEntity.ok(repository.save(pauta));
+			if (pauta.getFimSessao() == null) {
+				if (pauta.getFimSessao().isAfter(LocalDateTime.now())) {
+					if(!pauta.getVotos().containsKey(userId))
+						return ResponseEntity.badRequest().body("Associado já votou.");
+					else {
+						pauta.getVotos().put(userId, voto);
+						return ResponseEntity.ok(repository.save(pauta));
+					}
+				} else
+					return ResponseEntity.badRequest().body("Sessão encerrada.");
 			} else {
-				return ResponseEntity.badRequest().body("Sessão da pauta já iniciada.");
+				return ResponseEntity.badRequest().body("Sessão da pauta não iniciada.");
 			}
 		} else
 			return NOT_FOUND;
