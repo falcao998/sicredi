@@ -81,7 +81,7 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 		if(pauta != null) {
 			if (pauta.getFimSessao() != null) {
 				if (pauta.getFimSessao().isAfter(LocalDateTime.now())) {
-					if(!pauta.getVotos().containsKey(userId))
+					if(pauta.getVotos().containsKey(userId))
 						return ResponseEntity.badRequest().body("Associado já votou.");
 					else {
 						pauta.getVotos().put(userId, voto);
