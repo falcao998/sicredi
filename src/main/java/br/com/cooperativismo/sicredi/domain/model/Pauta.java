@@ -60,11 +60,11 @@ public class Pauta {
 	private Integer countNao;
 	
 	public Integer getCountSim() {
-		return votos.entrySet().stream().filter(e -> e.getValue().equals("Sim")).map(Map.Entry::getValue).collect(Collectors.toList()).size();
+		return votos.entrySet().stream().filter(e -> e.getValue().equalsIgnoreCase("Sim")).map(Map.Entry::getValue).collect(Collectors.toList()).size();
 	}
 	
 	public Integer getCountNao() {
-		return votos.entrySet().stream().filter(e -> e.getValue().equals("Não")).map(Map.Entry::getValue).collect(Collectors.toList()).size();
+		return votos.entrySet().stream().filter(e -> e.getValue().equalsIgnoreCase("Não")).map(Map.Entry::getValue).collect(Collectors.toList()).size();
 	}
 	
 	public void iniciarSessao(Optional<Long> minutos) {
