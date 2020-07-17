@@ -51,9 +51,12 @@ public class Pauta {
 		      joinColumns = {@JoinColumn(name = "pauta_id", referencedColumnName = "id")})
 	@MapKeyColumn(name = "user_id")
 	@Column(name = "voto")
-	private Map<Integer, String> votos = new HashMap<Integer, String>();
+	private Map<Integer, String> votos = new HashMap<>();
 	
+	@SuppressWarnings("unused")
 	private Integer countSim;
+	
+	@SuppressWarnings("unused")
 	private Integer countNao;
 	
 	public Integer getCountSim() {
