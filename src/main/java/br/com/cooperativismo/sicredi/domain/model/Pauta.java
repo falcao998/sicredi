@@ -4,15 +4,16 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-import javax.persistence.JoinColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -51,6 +52,17 @@ public class Pauta {
 	@MapKeyColumn(name = "user_id")
 	@Column(name = "voto")
 	private Map<Integer, String> votos = new HashMap<Integer, String>();
+	
+	private Integer countSim;
+	private Integer countNao;
+	
+	public Integer getCountSim() {
+		return votos.entrySet().stream().filter(e -> e.getValue().equals("Sim")).map(Map.Entry::getValue).collect(Collectors.toList()).size();
+	}
+	
+	public Integer getCountNao() {
+		return votos.entrySet().stream().filter(e -> e.getValue().equals("Não")).map(Map.Entry::getValue).collect(Collectors.toList()).size();
+	}
 	
 	public void iniciarSessao(Optional<Long> minutos) {
 		this.inicioSessao = LocalDateTime.now();
