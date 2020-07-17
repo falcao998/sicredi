@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "6ef82330-8d1f-4231-815a-04f0241012a9",
+		"name": "Sicredi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET-PAUTA-FINDALL",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://app-sicredi.herokuapp.com/pautas",
+					"protocol": "https",
+					"host": [
+						"app-sicredi",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"pautas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET-PAUTA-FINDBYID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://app-sicredi.herokuapp.com/pautas/1",
+					"protocol": "https",
+					"host": [
+						"app-sicredi",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"pautas",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DEL-PAUTA",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://app-sicredi.herokuapp.com/pautas/1",
+					"protocol": "https",
+					"host": [
+						"app-sicredi",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"pautas",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST-PAUTA",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\":\"Sicredi\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://app-sicredi.herokuapp.com/pautas",
+					"protocol": "https",
+					"host": [
+						"app-sicredi",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"pautas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT-PAUTA",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\":\"Sicredi_Aprovado\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://app-sicredi.herokuapp.com/pautas/2",
+					"protocol": "https",
+					"host": [
+						"app-sicredi",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"pautas",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT-INICIARSESSAO",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://app-sicredi.herokuapp.com/pautas/abrisessao/2?minutos=90",
+					"protocol": "https",
+					"host": [
+						"app-sicredi",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"pautas",
+						"abrisessao",
+						"2"
+					],
+					"query": [
+						{
+							"key": "minutos",
+							"value": "90"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT-VOTACAO",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\":\"Sicredi_Aprovado\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://app-sicredi.herokuapp.com/pautas/votacao/2?userId=5&voto=SIM",
+					"protocol": "https",
+					"host": [
+						"app-sicredi",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"pautas",
+						"votacao",
+						"2"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "5"
+						},
+						{
+							"key": "voto",
+							"value": "SIM"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
