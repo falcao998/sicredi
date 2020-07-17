@@ -2,6 +2,7 @@ package br.com.cooperativismo.sicredi.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 	@Autowired
 	private PautaRepository repository;
 	
-	private static final ResponseEntity<Object> NOT_FOUND = new ResponseEntity<Object>("Pauta não encontrada.", HttpStatus.NOT_FOUND);
+	private static final ResponseEntity<Object> NOT_FOUND = new ResponseEntity<>("Pauta não encontrada.", HttpStatus.NOT_FOUND);
 
 	@Override
 	public ResponseEntity<List<Pauta>> findAll() {
@@ -27,17 +28,17 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 
 	@Override
 	public ResponseEntity<Object> findById(Long id) {
-		Optional<Pauta> pauta = repository.findById(id);
-		if(pauta.isPresent())
-			return ResponseEntity.ok(pauta.get());
-		else
+		try {
+			return ResponseEntity.ok(repository.findById(id).orElseThrow());
+		} catch (NoSuchElementException e) {
 			return NOT_FOUND;
+		}
 	}
 
 	@Override
 	public ResponseEntity<Object> save(Pauta pauta) {
 		try {
-			return ResponseEntity.created(null).body(repository.save(pauta));
+			return new ResponseEntity<>(repository.save(pauta), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body("Erro para inserir uma nova pauta");
 		}
@@ -50,7 +51,7 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 			repository.deleteById(id);
 			return ResponseEntity.noContent().build();
 		} else
-			return NOT_FOUND;
+		    return NOT_FOUND;
 	}
 
 	@Override
@@ -60,7 +61,7 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 			pauta.setId(id);
 			return ResponseEntity.ok(repository.save(pauta));
 		} else
-			return NOT_FOUND;
+		    return NOT_FOUND;
 	}
 
 	public ResponseEntity<Object> abrirSessao(Long id, Optional<Long> minutos) {
@@ -73,7 +74,7 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 				return ResponseEntity.badRequest().body("Sessão da pauta já iniciada.");
 			}
 		} else
-			return NOT_FOUND;
+		    return NOT_FOUND;
 	}
 
 	public ResponseEntity<Object> votacao(Long id, int userId, String voto) {
@@ -88,11 +89,11 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 						return ResponseEntity.ok(repository.save(pauta));
 					}
 				} else
-					return ResponseEntity.badRequest().body("Sessão encerrada.");
+				    return ResponseEntity.badRequest().body("Sessão encerrada.");
 			} else {
 				return ResponseEntity.badRequest().body("Sessão da pauta não iniciada.");
 			}
 		} else
-			return NOT_FOUND;
+		    return NOT_FOUND;
 	}
 }
