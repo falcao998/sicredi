@@ -77,15 +77,15 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 		    return NOT_FOUND;
 	}
 
-	public ResponseEntity<Object> votacao(Long id, int userId, String voto) {
+	public ResponseEntity<Object> votacao(Long id, String userCPF, String voto) {
 		Pauta pauta = repository.findById(id).orElse(null);
 		if(pauta != null) {
 			if (pauta.getFimSessao() != null) {
 				if (pauta.getFimSessao().isAfter(LocalDateTime.now())) {
-					if(pauta.getVotos().containsKey(userId))
+					if(pauta.getVotos().containsKey(userCPF))
 						return ResponseEntity.badRequest().body("Associado já votou.");
 					else {
-						pauta.getVotos().put(userId, voto);
+						pauta.getVotos().put(userCPF, voto);
 						return ResponseEntity.ok(repository.save(pauta));
 					}
 				} else

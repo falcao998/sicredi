@@ -182,7 +182,7 @@ class PautaControllerTest {
 	@DisplayName("PUT - /pautas/votacao - BAD_REQUEST_1")
 	void whenVotaca_thenReturnBADREQUEST_1() throws Exception {
 		pauta3.setFimSessao(LocalDateTime.now().plusMinutes(30));
-		pauta3.getVotos().put(1, "Não");
+		pauta3.getVotos().put("499.224.020-84", "Não");
 		pauta3.setId(3L);
 		repository.save(pauta3);
 		
@@ -201,7 +201,7 @@ class PautaControllerTest {
 	@DisplayName("Serivce - Votaca - BAD_REQUEST_2")
 	void whenVotaca_thenReturnBADREQUEST_2() throws Exception {
 		pauta.setFimSessao(LocalDateTime.now());
-		pauta.getVotos().put(1, "Não");
+		pauta.getVotos().put("499.224.020-84", "Não");
 		pauta.setId(4L);
 		repository.save(pauta);
 		

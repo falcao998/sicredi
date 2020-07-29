@@ -136,7 +136,7 @@ class PautaServiceTest {
 		doReturn(Optional.of(pauta)).when(repository).findById(anyLong());
 		doReturn(pauta).when(repository).save(any());
 		
-		assertEquals(HttpStatus.OK, service.votacao(1L, 1, "Sim").getStatusCode());
+		assertEquals(HttpStatus.OK, service.votacao(1L, "499.224.020-84", "Sim").getStatusCode());
 	}
 	
 	@Test
@@ -144,7 +144,7 @@ class PautaServiceTest {
 	void whenVotaca_thenReturnNOTFOUND() {
 		doReturn(Optional.empty()).when(repository).findById(anyLong());
 		
-		assertEquals(HttpStatus.NOT_FOUND, service.votacao(1L, 1, "Sim").getStatusCode());
+		assertEquals(HttpStatus.NOT_FOUND, service.votacao(1L, "499.224.020-84", "Sim").getStatusCode());
 	}
 	
 	@Test
@@ -152,11 +152,11 @@ class PautaServiceTest {
 	void whenVotaca_thenReturnBADREQUEST_1() {
 		Pauta pauta = new Pauta("Teste Sicredi");
 		pauta.setFimSessao(LocalDateTime.now().plusMinutes(30));
-		pauta.getVotos().put(1, "Não");
+		pauta.getVotos().put("499.224.020-84", "Não");
 		doReturn(Optional.of(pauta)).when(repository).findById(anyLong());
 		doReturn(pauta).when(repository).save(any());
 		
-		ResponseEntity<Object> response = service.votacao(1L, 1, "Sim");
+		ResponseEntity<Object> response = service.votacao(1L, "499.224.020-84", "Sim");
 		
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals("Associado já votou.", response.getBody());
@@ -167,11 +167,11 @@ class PautaServiceTest {
 	void whenVotaca_thenReturnBADREQUEST_2() {
 		Pauta pauta = new Pauta("Teste Sicredi");
 		pauta.setFimSessao(LocalDateTime.now());
-		pauta.getVotos().put(1, "Não");
+		pauta.getVotos().put("499.224.020-84", "Não");
 		doReturn(Optional.of(pauta)).when(repository).findById(anyLong());
 		doReturn(pauta).when(repository).save(any());
 		
-		ResponseEntity<Object> response = service.votacao(1L, 1, "Sim");
+		ResponseEntity<Object> response = service.votacao(1L, "499.224.020-84", "Sim");
 		
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals("Sessão encerrada.", response.getBody());
@@ -184,7 +184,7 @@ class PautaServiceTest {
 		doReturn(Optional.of(pauta)).when(repository).findById(anyLong());
 		doReturn(pauta).when(repository).save(any());
 		
-		ResponseEntity<Object> response = service.votacao(1L, 1, "Sim");
+		ResponseEntity<Object> response = service.votacao(1L, "499.224.020-84", "Sim");
 		
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals("Sessão da pauta não iniciada.", response.getBody());

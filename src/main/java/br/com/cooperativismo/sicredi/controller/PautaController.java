@@ -58,7 +58,7 @@ public class PautaController {
 	}
 	
 	@PutMapping("/votacao/{id}")
-	public ResponseEntity<Object> votacaoPauta(@PathVariable Long id, @RequestParam int userId, @RequestParam String voto) {
+	public ResponseEntity<Object> votacaoPauta(@PathVariable Long id, @RequestParam String userId, @RequestParam String voto) {
 		return service.votacao(id, userId, voto);
 	}
 }
