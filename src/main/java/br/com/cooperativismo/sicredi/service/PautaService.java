@@ -81,15 +81,18 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 	}
 
 	public ResponseEntity<Object> votacao(Long id, String userCPF, String voto) {
-		Pauta pauta = repository.findById(id).orElse(null);
-		if(pauta != null) {
+		try {
+			Pauta pauta = repository.findById(id).orElseThrow();
 			if (pauta.getFimSessao() != null) {
 				if (pauta.getFimSessao().isAfter(LocalDateTime.now())) {
 					if(pauta.getVotos().containsKey(userCPF))
 						return ResponseEntity.badRequest().body("Associado já votou.");
 					else {
-						ResponseEntity<String> response = restTemplate.getForEntity("https://user-info.herokuapp.com/users/"+userCPF, String.class);
-						System.out.println(response);
+						ResponseEntity<String> response =  restTemplate.getForEntity("https://user-info.herokuapp.com/users/"+userCPF, String.class);
+						
+						if(response.getBody().contains("UNABLE_TO_VOTE"))
+							return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autorizado");
+						
 						pauta.getVotos().put(userCPF, voto);
 						return ResponseEntity.ok(repository.save(pauta));
 					}
@@ -98,7 +101,10 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 			} else {
 				return ResponseEntity.badRequest().body("Sessão da pauta não iniciada.");
 			}
-		} else
-		    return NOT_FOUND;
+		} catch(NoSuchElementException e) {
+			return NOT_FOUND;
+		} catch(Exception e) {
+			return ResponseEntity.badRequest().body("CPF incorreto");
+		}
 	}
 }
