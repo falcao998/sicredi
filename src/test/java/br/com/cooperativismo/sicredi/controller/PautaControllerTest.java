@@ -156,15 +156,29 @@ class PautaControllerTest {
 				.andExpect(status().isBadRequest());
 	}
 	
-	@Test
-	@DisplayName("PUT - /pautas/votacao - OK")
+//	@Test - Não consigo testar quando o usuário é UNABLE_TO_VOTE ou ABLE_TO_VOTE pois não tenho um cpf correto 
+//	@DisplayName("PUT - /pautas/votacao - OK")
+//	void whenVotacao_thenReturnOK() throws Exception {
+//		mockMvc.perform(
+//				put("/pautas/votacao/{id}", 1L)
+//				.contentType(MediaType.APPLICATION_JSON)
+//				.param("userId", "00365780022")
+//				.param("voto", "Sim"))
+//				.andExpect(status().isOk());
+//	}
+	
+	@Test 
+	@DisplayName("PUT - /pautas/votacao - BAD_REQEUST")
 	void whenVotacao_thenReturnOK() throws Exception {
-		mockMvc.perform(
+		 MvcResult result = mockMvc.perform(
 				put("/pautas/votacao/{id}", 1L)
 				.contentType(MediaType.APPLICATION_JSON)
-				.param("userId", "1")
+				.param("userId", "003.657.800-22")
 				.param("voto", "Sim"))
-				.andExpect(status().isOk());
+				.andExpect(status().isBadRequest())
+				.andReturn();
+		 
+		assertEquals("CPF incorreto", result.getResponse().getContentAsString());
 	}
 	
 	@Test
@@ -173,7 +187,7 @@ class PautaControllerTest {
 		mockMvc.perform(
 				put("/pautas/votacao/{id}", 20L)
 				.contentType(MediaType.APPLICATION_JSON)
-				.param("userId", "1")
+				.param("userId", "00365780022")
 				.param("voto", "Sim"))
 				.andExpect(status().isNotFound());
 	}
@@ -182,14 +196,14 @@ class PautaControllerTest {
 	@DisplayName("PUT - /pautas/votacao - BAD_REQUEST_1")
 	void whenVotaca_thenReturnBADREQUEST_1() throws Exception {
 		pauta3.setFimSessao(LocalDateTime.now().plusMinutes(30));
-		pauta3.getVotos().put("499.224.020-84", "Não");
+		pauta3.getVotos().put("49922402084", "Não");
 		pauta3.setId(3L);
 		repository.save(pauta3);
 		
 		MvcResult result = mockMvc.perform(
 				put("/pautas/votacao/{id}", 3L)
 				.contentType(MediaType.APPLICATION_JSON)
-				.param("userId", "1")
+				.param("userId", "49922402084")
 				.param("voto", "Sim"))
 				.andExpect(status().isBadRequest())
 				.andReturn();
@@ -201,14 +215,14 @@ class PautaControllerTest {
 	@DisplayName("Serivce - Votaca - BAD_REQUEST_2")
 	void whenVotaca_thenReturnBADREQUEST_2() throws Exception {
 		pauta.setFimSessao(LocalDateTime.now());
-		pauta.getVotos().put("499.224.020-84", "Não");
+		pauta.getVotos().put("49922402084", "Não");
 		pauta.setId(4L);
 		repository.save(pauta);
 		
 		MvcResult result = mockMvc.perform(
 				put("/pautas/votacao/{id}", 4L)
 				.contentType(MediaType.APPLICATION_JSON)
-				.param("userId", "1")
+				.param("userId", "00365780022")
 				.param("voto", "Sim"))
 				.andExpect(status().isBadRequest())
 				.andReturn();
