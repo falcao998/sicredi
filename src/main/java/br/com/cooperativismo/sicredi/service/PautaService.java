@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import br.com.cooperativismo.sicredi.domain.model.Pauta;
 import br.com.cooperativismo.sicredi.domain.reository.PautaRepository;
@@ -18,6 +19,8 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 
 	@Autowired
 	private PautaRepository repository;
+	
+	RestTemplate restTemplate = new RestTemplate();
 	
 	private static final ResponseEntity<Object> NOT_FOUND = new ResponseEntity<>("Pauta não encontrada.", HttpStatus.NOT_FOUND);
 
@@ -85,6 +88,8 @@ public class PautaService implements ServicePattern<Pauta, Long> {
 					if(pauta.getVotos().containsKey(userCPF))
 						return ResponseEntity.badRequest().body("Associado já votou.");
 					else {
+						ResponseEntity<String> response = restTemplate.getForEntity("https://user-info.herokuapp.com/users/"+userCPF, String.class);
+						System.out.println(response);
 						pauta.getVotos().put(userCPF, voto);
 						return ResponseEntity.ok(repository.save(pauta));
 					}
