@@ -17,7 +17,7 @@ Para poder executar esse projeto é preciso instalar os seguintes programas:
 * [MAVEN 3.6.3](https://maven.apache.org/download.cgi)
 * [JAVA 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
 * [Eclipse-2020-03](https://www.eclipse.org/downloads/) - Você pode baixar qualquer outra IDE
-* [Lombok v1.18.12](https://projectlombok.org/) - Para o lombok a instalação tem alguns passos, que podem ser seguidos pela pórpria página.
+* [Lombok v1.18.12](https://projectlombok.org/) - Para a instalação do lombok tem alguns passos diferentes, esses passos está própria página.
 
 ----------------------------------------------------------------------------
 
@@ -27,22 +27,24 @@ Desenvolvimento
 Para dar inicio ao desenvolvimento é necessário baixar/checkout a aplicação:
 
 * [GIT - HTTPS](https://github.com/falcao998/sicredi.git)
-* [GIT - SSH](git@github.com:falcao998/sicredi.git)
 
-Execute o comando, este usa o GIT-HTTP :
+Execute o comando :
 
 ```
 git clone https://github.com/falcao998/sicredi.git
 ```
 
-Ao pode criar um repositório pela IDE que você utiliza.
+Ou você pode baixar o projeto criando um repositório pela IDE que você utiliza.
+
+Caso você importe o projeto fora da sua IDE, você tem que fazer o carregamento do projeto por dentro da IDE, no Eclipse você tem que fazer o import do projeto Maven.
+
 
 ----------------------------------------------------------------------------
 
 Build / Deploy / Publicação
 ---------------------------
 
- Para poder fazer o build local é necessário fazer algumas alterações em 1 único arquivo - application.properties:
+ Para poder fazer o build local é necessário fazer algumas alterações em 1 único arquivo - [application.properties](https://github.com/falcao998/sicredi/blob/master/src/main/resources/application.properties):
  
  Ele se encontra dessa forma:
  
@@ -76,3 +78,16 @@ logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
  ```
  
 Lembrando que para a configuração que fiz para esse projeto, não se deve commitar esse arquivo. Pois isso quebra as configurações do HEROKU.
+
+Para o build da aplicação é só selecionar o projeto e pedir para rodar como um aplicação.
+
+
+----------------------------------------------------------------------------
+
+Para rodar os testes você pode rodar pela linha de comando:
+
+```
+mvn test
+```
+
+Ou ir no projeto e selecionar as classes de teste e roda-las manualmente.
